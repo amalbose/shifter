@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerControl : MonoBehaviour {
+public class PlayerControl : MonoBehaviour
+{
 
 	private Vector2 startPos;
 	private Vector2 endPos;
@@ -9,25 +10,28 @@ public class PlayerControl : MonoBehaviour {
 	private float curVelocity = 0, targetVel;
 	private float normalVelocity = 10;
 	public float flickVelocity;
-	string movement;
+	public string movement;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
+	void Update ()
+	{
+		if (Input.GetMouseButtonDown (0)) {
 			startPos = Input.mousePosition;
 		} else if (Input.GetMouseButtonUp (0)) {
 			endPos = Input.mousePosition;
-			if(Mathf.Abs(endPos.x - startPos.x) < 0.1 ) {
+			if (Mathf.Abs (endPos.x - startPos.x) < 0.1) {
 				targetVel = 0;
 			} else {
 				Vector2 difVector = endPos - startPos;
-				float angle = Mathf.Rad2Deg * Mathf.Atan2(difVector.y,difVector.x);
+				float angle = Mathf.Rad2Deg * Mathf.Atan2 (difVector.y, difVector.x);
 
-				if(angle <= 40 && angle >= -40)
+				if (angle <= 40 && angle >= -40)
 					movement = "RIGHT";
 				else if (angle > 40 && angle < 140)
 					movement = "UP";
@@ -37,10 +41,10 @@ public class PlayerControl : MonoBehaviour {
 					movement = "DOWN";
 				else
 					movement = "IDLE";
-				Debug.Log(movement);
-					//
-				flickVelocity = (endPos.x - startPos.x)/(Time.deltaTime * 100);
-				targetVel = normalVelocity * (flickVelocity/Mathf.Abs(flickVelocity));
+				Debug.Log (movement);
+				//
+				flickVelocity = (endPos.x - startPos.x) / (Time.deltaTime * 100);
+				targetVel = normalVelocity * (flickVelocity / Mathf.Abs (flickVelocity));
 			}
 		}
 		if (Mathf.Abs (curVelocity - targetVel) > 0.1)
