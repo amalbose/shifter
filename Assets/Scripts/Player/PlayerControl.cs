@@ -5,18 +5,27 @@ public class PlayerControl : MonoBehaviour
 {
 	private bool facingRight = true;
 
+	private Vector2 jumpForce;
+
+	// Velocity related
+	private float curVelocity = 0, normalVelocity = 10, targetVel;
+	private string movement;
+
+	// Input related variables
 	private Vector2 startPos;
 	private Vector2 endPos;
+	private float flickVelocity;
+	
+	//ground
+	public bool grounded = false;
+	private Transform groundCheck;
+	private float groundRadius = 0.2f;
 
-	private float curVelocity = 0, targetVel;
-	private float normalVelocity = 10;
-	public float flickVelocity;
-	public string movement;
-	private Vector2 jumpForce = new Vector2 (0, 700f);
 	// Use this for initialization
 	void Start ()
 	{
-		
+		groundCheck = transform.GetChild (0);
+		jumpForce = new Vector2 (0, 700f);
 	}
 	
 	// Update is called once per frame
@@ -42,10 +51,10 @@ public class PlayerControl : MonoBehaviour
 					movement = "DOWN";
 				else
 					movement = "IDLE";
-				Debug.Log (movement);
-				//
+
+				// processing input
 				flickVelocity = (endPos.x - startPos.x) / (Time.deltaTime * 100);
-				if (movement.Equals ("UP"))
+				if (movement.Equals ("UP") && grounded)
 					rigidbody2D.AddForce (jumpForce);
 				else
 					targetVel = normalVelocity * (flickVelocity / Mathf.Abs (flickVelocity));
@@ -59,6 +68,8 @@ public class PlayerControl : MonoBehaviour
 
 	void FixedUpdate ()
 	{
+		grounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, 1 << LayerMask.NameToLayer ("Ground"));
+
 		rigidbody2D.velocity = new Vector2 (curVelocity, rigidbody2D.velocity.y);
 
 		// Flip the character
