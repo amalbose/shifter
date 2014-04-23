@@ -24,7 +24,7 @@ public class PlayerControl : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		groundCheck = transform.GetChild (0);
+		groundCheck = transform.FindChild ("GroundCheck");
 		jumpForce = new Vector2 (0, 700f);
 	}
 	
