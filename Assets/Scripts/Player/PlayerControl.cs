@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour
 {
+	private bool facingRight = true;
 
 	private Vector2 startPos;
 	private Vector2 endPos;
@@ -11,7 +12,7 @@ public class PlayerControl : MonoBehaviour
 	private float normalVelocity = 10;
 	public float flickVelocity;
 	public string movement;
-
+	private Vector2 jumpForce = new Vector2 (0, 700f);
 	// Use this for initialization
 	void Start ()
 	{
@@ -44,16 +45,35 @@ public class PlayerControl : MonoBehaviour
 				Debug.Log (movement);
 				//
 				flickVelocity = (endPos.x - startPos.x) / (Time.deltaTime * 100);
-				targetVel = normalVelocity * (flickVelocity / Mathf.Abs (flickVelocity));
+				if (movement.Equals ("UP"))
+					rigidbody2D.AddForce (jumpForce);
+				else
+					targetVel = normalVelocity * (flickVelocity / Mathf.Abs (flickVelocity));
 			}
 		}
 		if (Mathf.Abs (curVelocity - targetVel) > 0.1)
 			curVelocity = Mathf.Lerp (curVelocity, targetVel, 25 * Time.deltaTime);
 		else 
 			curVelocity = targetVel;
-		rigidbody2D.velocity = new Vector2 (curVelocity, Physics2D.gravity.y);
 	}
 
+	void FixedUpdate ()
+	{
+		rigidbody2D.velocity = new Vector2 (curVelocity, rigidbody2D.velocity.y);
 
+		// Flip the character
+		if (curVelocity > 0 && !facingRight) {
+			Flip ();
+		} else if (curVelocity < 0 && facingRight) {
+			Flip ();
+		}
+	}
 
+	private void Flip ()
+	{
+		facingRight = !facingRight;
+		Vector3 scale = transform.localScale;
+		scale.x *= -1;
+		transform.localScale = scale;
+	}
 }
