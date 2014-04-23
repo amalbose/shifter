@@ -3,7 +3,7 @@
 var cameraTarget : GameObject;
 var player : GameObject;
  
-var smoothTime : float = 0.1;
+var smoothTime : float = 0.2;
 var cameraFollowX : boolean = true;
 var cameraFollowY : boolean = true;
 var cameraFollowHeight : boolean = false;

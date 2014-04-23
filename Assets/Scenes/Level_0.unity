@@ -140,7 +140,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 417128537}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.46910381, y: 0, z: 0}
+  m_LocalPosition: {x: 5.46910381, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1960229128}
@@ -363,9 +363,9 @@ Transform:
   m_LocalPosition: {x: 17.4451942, y: -4.41657114, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 651014410}
   - {fileID: 1733285084}
   - {fileID: 887748085}
+  - {fileID: 651014410}
   m_Father: {fileID: 0}
 --- !u!1 &1733285081
 GameObject:
@@ -525,7 +525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTarget: {fileID: 417128537}
   player: {fileID: 1960229126}
-  smoothTime: .170000002
+  smoothTime: .200000003
   cameraFollowX: 1
   cameraFollowY: 1
   cameraFollowHeight: 0
