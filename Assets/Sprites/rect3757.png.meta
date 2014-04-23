@@ -72,5 +72,14 @@ TextureImporter:
         height: 243
       alignment: 0
       pivot: {x: .5, y: .5}
+    - name: MovingPlatform
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 270
+        width: 207
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 
