@@ -9,23 +9,54 @@ public class PlayerControl : MonoBehaviour
 
 	// Velocity related
 	private float curVelocity = 0, normalVelocity = 10, targetVel;
-	private string movement;
+	private Movement movement;
 
 	// Input related variables
-	private Vector2 startPos;
-	private Vector2 endPos;
+	private Vector3 startPos;
+	private Vector3 endPos;
 	private float flickVelocity;
+	private float flickStartTime;
+	private float flickDuration;
+
+	// Drag
+	private float dragVelReductionFactor = 3f;
+	private float flickTimeLimit = 0.2f;
+	private Vector3 prevPos;
 	
 	//ground
 	public bool grounded = false;
 	private Transform groundCheck;
 	private float groundRadius = 0.2f;
 
+	private InputMode inputMode;
+
+	// Garbage stuff in update
+	Vector2 difVector;
+	float angle;
+
+	enum Movement
+	{
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN,
+		IDLE
+	}
+
+	enum InputMode
+	{
+		BEGIN,
+		DRAG,
+		FLICK,
+		NONE
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
 		groundCheck = transform.FindChild ("GroundCheck");
 		jumpForce = new Vector2 (0, 700f);
+		inputMode = InputMode.NONE;
 	}
 	
 	// Update is called once per frame
@@ -33,37 +64,57 @@ public class PlayerControl : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown (0)) {
 			startPos = Input.mousePosition;
+			flickStartTime = Time.time;
+			inputMode = InputMode.BEGIN;
+		} else if (Input.GetMouseButton (0)) {
+			// Indentifies the input mode
+			if (Time.time - flickStartTime > flickTimeLimit) {
+				endPos = Input.mousePosition;
+				// Set input mode
+				inputMode = InputMode.DRAG;
+				// move the player
+				targetVel = Mathf.Sign (targetVel) * normalVelocity / dragVelReductionFactor;
+
+				prevPos = endPos;
+			} else
+				inputMode = InputMode.FLICK;
+
 		} else if (Input.GetMouseButtonUp (0)) {
+				
 			endPos = Input.mousePosition;
+			flickDuration = Time.time - flickStartTime;
 			if (Mathf.Abs (endPos.x - startPos.x) < 0.1) {
 				targetVel = 0;
 			} else {
-				Vector2 difVector = endPos - startPos;
-				float angle = Mathf.Rad2Deg * Mathf.Atan2 (difVector.y, difVector.x);
-
+				difVector = endPos - startPos;
+				angle = Mathf.Rad2Deg * Mathf.Atan2 (difVector.y, difVector.x);
+					
 				if (angle <= 40 && angle >= -40)
-					movement = "RIGHT";
+					movement = Movement.RIGHT;
 				else if (angle > 40 && angle < 140)
-					movement = "UP";
-				else if ((angle >= 140 && angle < 180) || angle < -140)
-					movement = "LEFT";
-				else if (angle < -40 && angle > -140)
-					movement = "DOWN";
+					movement = Movement.UP;
+				else if ((angle >= 140 && angle < 180) || angle < -140) { 
+					movement = Movement.LEFT;
+				} else if (angle < -40 && angle > -140)
+					movement = Movement.DOWN;
 				else
-					movement = "IDLE";
-
+					movement = Movement.IDLE;
+					
 				// processing input
 				flickVelocity = (endPos.x - startPos.x) / (Time.deltaTime * 100);
-				if (movement.Equals ("UP") && grounded)
+				if (movement == Movement.UP && grounded)
 					rigidbody2D.AddForce (jumpForce);
 				else
 					targetVel = normalVelocity * (flickVelocity / Mathf.Abs (flickVelocity));
 			}
+
+
 		}
 		if (Mathf.Abs (curVelocity - targetVel) > 0.1)
 			curVelocity = Mathf.Lerp (curVelocity, targetVel, 25 * Time.deltaTime);
 		else 
 			curVelocity = targetVel;
+		Debug.Log (curVelocity);
 	}
 
 	void FixedUpdate ()
