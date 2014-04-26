@@ -114,7 +114,6 @@ public class PlayerControl : MonoBehaviour
 			curVelocity = Mathf.Lerp (curVelocity, targetVel, 25 * Time.deltaTime);
 		else 
 			curVelocity = targetVel;
-		Debug.Log (curVelocity);
 	}
 
 	void FixedUpdate ()
@@ -137,5 +136,16 @@ public class PlayerControl : MonoBehaviour
 		Vector3 scale = transform.localScale;
 		scale.x *= -1;
 		transform.localScale = scale;
+	}
+
+	public void ReSpawn ()
+	{
+		transform.position = new Vector3 (-2.2f, -0.3f, 0f);
+		targetVel = Mathf.Abs (rigidbody2D.velocity.x);
+		
+		Vector3 scale = transform.localScale;
+		scale.x = Mathf.Sign (transform.localScale.x) * transform.localScale.x;
+		transform.localScale = scale;
+		facingRight = true;
 	}
 }
