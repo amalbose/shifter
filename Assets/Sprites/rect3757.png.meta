@@ -81,5 +81,14 @@ TextureImporter:
         height: 39
       alignment: 0
       pivot: {x: .5, y: .5}
+    - name: shiftPlatform
+      rect:
+        serializedVersion: 2
+        x: 443
+        y: 214
+        width: 358
+        height: 38
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 

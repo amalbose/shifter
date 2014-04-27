@@ -16,6 +16,7 @@ public class PlayerControl : MonoBehaviour
 	private Vector3 endPos;
 	private float flickVelocity;
 	private float flickStartTime;
+	private Vector2 spawnPoint;
 
 	// Drag
 	private float dragVelReductionFactor = 3f;
@@ -52,7 +53,9 @@ public class PlayerControl : MonoBehaviour
 	void Start ()
 	{
 		groundCheck = transform.FindChild ("GroundCheck");
+		spawnPoint = transform.FindChild ("SpawnPoint").transform.position;
 		jumpForce = new Vector2 (0, 700f);
+		transform.position = spawnPoint;
 	}
 	
 	// Update is called once per frame
@@ -163,7 +166,7 @@ public class PlayerControl : MonoBehaviour
 
 	public void ReSpawn ()
 	{
-		transform.position = new Vector3 (-2.2f, -0.3f, 0f);
+		transform.position = spawnPoint;
 		targetVel = Mathf.Abs (rigidbody2D.velocity.x);
 		
 		Vector3 scale = transform.localScale;
