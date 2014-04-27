@@ -27,8 +27,11 @@ public class PlayerControl : MonoBehaviour
 	public bool grounded = false;
 	private Transform groundCheck;
 	private float groundRadius = 0.2f;
+	private Collider2D groundCheckCollider;
+	public bool onPlatform = false, onPlatformStart = false;
 
 	private InputMode inputMode;
+
 
 	// Garbage stuff in update
 	Vector2 difVector;
@@ -107,9 +110,12 @@ public class PlayerControl : MonoBehaviour
 				else
 					targetVel = normalVelocity * (flickVelocity / Mathf.Abs (flickVelocity));
 			}
-
-
 		}
+
+		if (onPlatformStart) {
+			curVelocity = targetVel = 0;
+		}
+
 		if (Mathf.Abs (curVelocity - targetVel) > 0.1)
 			curVelocity = Mathf.Lerp (curVelocity, targetVel, 25 * Time.deltaTime);
 		else 
@@ -118,7 +124,39 @@ public class PlayerControl : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		grounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, 1 << LayerMask.NameToLayer ("Ground"));
+		groundCheckCollider = Physics2D.OverlapPoint (groundCheck.transform.position);
+		if (groundCheckCollider != null && groundCheckCollider.transform != null && groundCheckCollider.transform.gameObject != null) {
+			if (groundCheckCollider.gameObject.layer == LayerMask.NameToLayer ("Ground"))
+				grounded = true;
+			else if (groundCheckCollider.gameObject.layer == LayerMask.NameToLayer ("MovingPlatform")) {
+				if (!onPlatform) {
+					onPlatformStart = true;
+					onPlatform = true;
+					transform.parent = groundCheckCollider.transform;
+				} else {
+					//if already on platform
+					onPlatformStart = false;
+				}
+			} else {
+				grounded = false;
+				onPlatformStart = false;
+				onPlatform = false;
+				if (transform.parent != null)
+					transform.parent = null;
+			}
+		} else {
+			// all checks are false;
+			grounded = false;
+			onPlatform = false;
+			onPlatformStart = false;
+			if (transform.parent != null)
+				transform.parent = null;
+		}
+
+		if (grounded && transform.parent != null) {
+			transform.parent = null;
+			onPlatform = false;
+		}
 
 		rigidbody2D.velocity = new Vector2 (curVelocity, rigidbody2D.velocity.y);
 
