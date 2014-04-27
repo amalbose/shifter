@@ -5,7 +5,7 @@ public class PlayerControl : MonoBehaviour
 {
 	private bool facingRight = true;
 
-	private Vector2 jumpForce;
+	private Vector2 jumpForce = new Vector2 (0, 700f);
 
 	// Velocity related
 	private float curVelocity = 0, normalVelocity = 10, targetVel;
@@ -29,8 +29,8 @@ public class PlayerControl : MonoBehaviour
 	private bool onPlatform = false, onPlatformStart = false;
 
 	// Garbage stuff in update
-	Vector2 difVector;
-	float angle;
+	private Vector2 difVector;
+	private float angle;
 
 	enum Movement
 	{
@@ -54,7 +54,6 @@ public class PlayerControl : MonoBehaviour
 	{
 		groundCheck = transform.FindChild ("GroundCheck");
 		spawnPoint = transform.FindChild ("SpawnPoint").transform.position;
-		jumpForce = new Vector2 (0, 700f);
 		transform.position = spawnPoint;
 	}
 	
@@ -101,6 +100,7 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		if (onPlatformStart) {
+			// Stop player right after falling on box.
 			curVelocity = targetVel = 0;
 		}
 
