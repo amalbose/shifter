@@ -32,6 +32,10 @@ public class PlayerControl : MonoBehaviour
 	private Vector2 difVector;
 	private float angle;
 
+	// Shift
+	private bool doShift = false;
+	private bool shifted = false;
+
 	enum Movement
 	{
 		LEFT,
@@ -90,12 +94,30 @@ public class PlayerControl : MonoBehaviour
 				else
 					movement = Movement.IDLE;
 					
+				// if shifted, inversing input
+				if (shifted) {
+					if (movement == Movement.UP)
+						movement = Movement.DOWN;
+					else if (movement == Movement.DOWN)
+						movement = Movement.UP;
+				}
+
 				// processing input
 				flickVelocity = (endPos.x - startPos.x) / (Time.deltaTime * 100);
-				if (movement == Movement.UP && (grounded || onPlatform))
-					rigidbody2D.AddForce (jumpForce);
-				else
+
+				if (movement == Movement.UP && (grounded || onPlatform)) {
+					// Upward Movement
+					if (shifted)
+						rigidbody2D.AddForce (jumpForce * -1);
+					else
+						rigidbody2D.AddForce (jumpForce);
+				} else if (movement == Movement.DOWN) {
+					// Shift movement
+					doShift = true;
+				} else {
+					// Normal Movement	
 					targetVel = normalVelocity * (flickVelocity / Mathf.Abs (flickVelocity));
+				}
 			}
 		}
 
@@ -141,9 +163,13 @@ public class PlayerControl : MonoBehaviour
 				transform.parent = null;
 		}
 
-		if (grounded && transform.parent != null) {
-			transform.parent = null;
-			onPlatform = false;
+		// Shift player
+		if (doShift) {
+			if (groundCheckCollider != null && groundCheckCollider.transform.gameObject.tag == "ShiftPlatform")
+				ShiftPlayer ();
+
+			// Reset doShift
+			doShift = false;
 		}
 
 		rigidbody2D.velocity = new Vector2 (curVelocity, rigidbody2D.velocity.y);
@@ -168,10 +194,36 @@ public class PlayerControl : MonoBehaviour
 	{
 		transform.position = spawnPoint;
 		targetVel = Mathf.Abs (rigidbody2D.velocity.x);
-		
 		Vector3 scale = transform.localScale;
 		scale.x = Mathf.Sign (transform.localScale.x) * transform.localScale.x;
-		transform.localScale = scale;
 		facingRight = true;
+		if (shifted) {
+			shifted = false;
+			rigidbody2D.gravityScale *= -1;
+			rigidbody2D.velocity = new Vector2 (targetVel, 0);
+			scale.y = Mathf.Sign (transform.localScale.y) * transform.localScale.y;
+		}
+		transform.localScale = scale;
+
+	}
+
+	private void ShiftPlayer ()
+	{
+		targetVel = 0;
+		rigidbody2D.gravityScale *= -1;
+
+		Vector2 newPos = transform.position;
+		if (shifted)
+			newPos.y += 2;
+		else
+			newPos.y -= 2;
+		transform.position = newPos;
+
+		Vector3 scale = transform.localScale;
+		scale.y *= -1;
+		transform.localScale = scale;
+
+		// Setting shifted variable
+		shifted = !shifted;
 	}
 }
