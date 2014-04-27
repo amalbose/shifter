@@ -105,7 +105,7 @@ public class PlayerControl : MonoBehaviour
 					
 				// processing input
 				flickVelocity = (endPos.x - startPos.x) / (Time.deltaTime * 100);
-				if (movement == Movement.UP && grounded)
+				if (movement == Movement.UP && (grounded || onPlatform))
 					rigidbody2D.AddForce (jumpForce);
 				else
 					targetVel = normalVelocity * (flickVelocity / Mathf.Abs (flickVelocity));
