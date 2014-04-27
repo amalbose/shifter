@@ -16,22 +16,16 @@ public class PlayerControl : MonoBehaviour
 	private Vector3 endPos;
 	private float flickVelocity;
 	private float flickStartTime;
-	private float flickDuration;
 
 	// Drag
 	private float dragVelReductionFactor = 3f;
 	private float flickTimeLimit = 0.2f;
-	private Vector3 prevPos;
 	
 	//ground
-	public bool grounded = false;
+	private bool grounded = false;
 	private Transform groundCheck;
-	private float groundRadius = 0.2f;
 	private Collider2D groundCheckCollider;
-	public bool onPlatform = false, onPlatformStart = false;
-
-	private InputMode inputMode;
-
+	private bool onPlatform = false, onPlatformStart = false;
 
 	// Garbage stuff in update
 	Vector2 difVector;
@@ -59,7 +53,6 @@ public class PlayerControl : MonoBehaviour
 	{
 		groundCheck = transform.FindChild ("GroundCheck");
 		jumpForce = new Vector2 (0, 700f);
-		inputMode = InputMode.NONE;
 	}
 	
 	// Update is called once per frame
@@ -68,24 +61,16 @@ public class PlayerControl : MonoBehaviour
 		if (Input.GetMouseButtonDown (0)) {
 			startPos = Input.mousePosition;
 			flickStartTime = Time.time;
-			inputMode = InputMode.BEGIN;
 		} else if (Input.GetMouseButton (0)) {
 			// Indentifies the input mode
 			if (Time.time - flickStartTime > flickTimeLimit) {
 				endPos = Input.mousePosition;
-				// Set input mode
-				inputMode = InputMode.DRAG;
 				// move the player
 				targetVel = Mathf.Sign (targetVel) * normalVelocity / dragVelReductionFactor;
-
-				prevPos = endPos;
-			} else
-				inputMode = InputMode.FLICK;
-
+			}
 		} else if (Input.GetMouseButtonUp (0)) {
 				
 			endPos = Input.mousePosition;
-			flickDuration = Time.time - flickStartTime;
 			if (Mathf.Abs (endPos.x - startPos.x) < 0.1) {
 				targetVel = 0;
 			} else {
