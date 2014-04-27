@@ -18,6 +18,9 @@ public class Destroyer : MonoBehaviour
 
 	void OnTriggerEnter2D (Collider2D other)
 	{
-		other.gameObject.GetComponent<PlayerControl> ().ReSpawn ();
+		if (other.gameObject.name == "Player")
+			other.gameObject.GetComponent<PlayerControl> ().ReSpawn ();
+		else
+			Destroy (other.gameObject);
 	}
 }

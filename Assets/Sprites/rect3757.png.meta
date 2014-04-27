@@ -90,5 +90,14 @@ TextureImporter:
         height: 38
       alignment: 0
       pivot: {x: .5, y: .5}
+    - name: box
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 9
+        width: 170
+        height: 164
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 

@@ -226,4 +226,11 @@ public class PlayerControl : MonoBehaviour
 		// Setting shifted variable
 		shifted = !shifted;
 	}
+
+	public void SlowDown ()
+	{
+		Debug.Log (rigidbody2D.velocity);
+		targetVel = 0;
+		curVelocity = 0;
+	}
 }
