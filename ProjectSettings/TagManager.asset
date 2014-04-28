@@ -17,7 +17,7 @@ TagManager:
   User Layer 9: Player
   User Layer 10: MovingPlatform
   User Layer 11: ShiftPlatform
-  User Layer 12: 
+  User Layer 12: JoyStick
   User Layer 13: 
   User Layer 14: 
   User Layer 15: 
@@ -41,4 +41,8 @@ TagManager:
   - name: Default
     userID: 0
     uniqueID: 0
+    locked: 0
+  - name: GUI
+    userID: 1
+    uniqueID: 1575060089
     locked: 0
