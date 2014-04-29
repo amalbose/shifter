@@ -108,5 +108,14 @@ TextureImporter:
         height: 110
       alignment: 0
       pivot: {x: .5, y: .5}
+    - name: spikes
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 278
+        width: 73
+        height: 36
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 

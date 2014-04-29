@@ -152,4 +152,22 @@ public class PlayerControl : MonoBehaviour
 	{
 		spawnPoint = transform.position;
 	}
+
+	public void HitObstacle (Obstacle obstacleType)
+	{
+		switch (obstacleType) {
+		case Obstacle.FIRE:
+			break;
+		case Obstacle.SPIKE:
+			Die ();
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void Die ()
+	{
+		ReSpawn ();
+	}
 }
