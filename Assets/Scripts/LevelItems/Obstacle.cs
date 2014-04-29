@@ -4,5 +4,6 @@ using System.Collections;
 public enum Obstacle
 {
 	SPIKE,
-	FIRE
+	FIRE,
+	CIRCULAR_SAW
 }

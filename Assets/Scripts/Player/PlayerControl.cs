@@ -157,11 +157,10 @@ public class PlayerControl : MonoBehaviour
 	{
 		switch (obstacleType) {
 		case Obstacle.FIRE:
-			break;
 		case Obstacle.SPIKE:
-			Die ();
-			break;
+		case Obstacle.CIRCULAR_SAW:
 		default:
+			Die ();
 			break;
 		}
 	}
