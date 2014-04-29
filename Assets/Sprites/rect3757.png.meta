@@ -99,5 +99,14 @@ TextureImporter:
         height: 164
       alignment: 0
       pivot: {x: .5, y: .5}
+    - name: savePoint
+      rect:
+        serializedVersion: 2
+        x: 697
+        y: 50
+        width: 25
+        height: 110
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 

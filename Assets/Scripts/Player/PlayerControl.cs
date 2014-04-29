@@ -117,6 +117,7 @@ public class PlayerControl : MonoBehaviour
 	public void ReSpawn ()
 	{
 		transform.position = spawnPoint;
+		rigidbody2D.velocity = Vector2.zero;
 		Vector3 scale = transform.localScale;
 		scale.x = Mathf.Sign (transform.localScale.x) * transform.localScale.x;
 		facingRight = true;
@@ -145,5 +146,10 @@ public class PlayerControl : MonoBehaviour
 
 		// Setting shifted variable
 		shifted = !shifted;
+	}
+
+	public void SavePointReached ()
+	{
+		spawnPoint = transform.position;
 	}
 }
