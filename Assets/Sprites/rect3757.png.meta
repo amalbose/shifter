@@ -117,5 +117,14 @@ TextureImporter:
         height: 36
       alignment: 0
       pivot: {x: .5, y: .5}
+    - name: spring
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 290
+        width: 113
+        height: 14
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 
