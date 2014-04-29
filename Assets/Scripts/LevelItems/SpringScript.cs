@@ -3,8 +3,7 @@ using System.Collections;
 
 public class SpringScript : MonoBehaviour
 {
-
-	public float force = 2000f;
+	public float force = 100f;
 
 	// Use this for initialization
 	void Start ()
@@ -15,12 +14,13 @@ public class SpringScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		
+
 	}
 
 	void OnTriggerEnter2D (Collider2D col)
 	{
-		if (col.gameObject.name == "Player")
-			col.gameObject.rigidbody2D.AddForce (new Vector2 (0, force));
+		if (col.gameObject.name == "Player") {
+			col.gameObject.rigidbody2D.AddForce (new Vector2 (0, force) / Time.fixedDeltaTime);
+		}
 	}
 }
