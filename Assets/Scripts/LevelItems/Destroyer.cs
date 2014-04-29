@@ -20,7 +20,5 @@ public class Destroyer : MonoBehaviour
 	{
 		if (other.gameObject.name == "Player")
 			other.gameObject.GetComponent<PlayerControl> ().ReSpawn ();
-		else
-			Destroy (other.gameObject);
 	}
 }
