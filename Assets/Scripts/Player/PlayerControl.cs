@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour
 	private JoyStickControl.Movement verticalMovement;
 
 	// Velocity related
-	private float norSpeed = 10;
+	private float norSpeed = 7;
 
 	private Vector2 spawnPoint;
 

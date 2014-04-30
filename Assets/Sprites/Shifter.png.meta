@@ -135,5 +135,14 @@ TextureImporter:
         height: 139
       alignment: 0
       pivot: {x: .5, y: .5}
+    - name: Trail
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 363
+        width: 120
+        height: 119
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 
