@@ -3,7 +3,8 @@ using System.Collections;
 
 public class RotateScript : MonoBehaviour
 {
-
+	public bool rotateAboutCenter = true;
+	public Transform rotatePoint;
 	public float rotateSpeed = 100;
 
 	// Use this for initialization
@@ -15,6 +16,9 @@ public class RotateScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		transform.Rotate (0, 0, rotateSpeed * Time.deltaTime);
+		if (rotateAboutCenter)
+			transform.Rotate (0, 0, rotateSpeed * Time.deltaTime);
+		else
+			transform.RotateAround (rotatePoint.position, new Vector3 (0, 0, 1), rotateSpeed * Time.deltaTime);
 	}
 }

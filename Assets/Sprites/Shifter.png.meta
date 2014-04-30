@@ -144,5 +144,14 @@ TextureImporter:
         height: 119
       alignment: 0
       pivot: {x: .5, y: .5}
+    - name: Rod
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 253
+        width: 451
+        height: 20
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 
